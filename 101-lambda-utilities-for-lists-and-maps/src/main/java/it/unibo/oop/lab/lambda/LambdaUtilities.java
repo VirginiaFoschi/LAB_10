@@ -84,6 +84,10 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Map.merge
          */
+        /*Map<R,Set<T>> m = new HashMap();
+        list.forEach(t-> 
+            m.merge(op.apply(t),Set.of(t),Set::addAll)
+        ); */
         return null;
     }
 
@@ -107,8 +111,8 @@ public final class LambdaUtilities {
          */
         Map<K,V> m = new HashMap<>();
         map.forEach((k,v)->{
-            if(!v.isPresent()) def.get();
-            m.put(k,v.get());
+            if(!v.isPresent()) m.put(k,Optional.of(def.get()).get());
+            else m.put(k,v.get());
         });
         return m;
     }
