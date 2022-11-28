@@ -114,7 +114,7 @@ final class TestMusicGroup {
     @Test
     void testAverageDuration() {
         assertEquals(6.0, lz.averageDurationOfSongs(UNTITLED).getAsDouble(), 0.0);
-    }
+    } 
 
     /**
      * Tests selecting the longest song.
