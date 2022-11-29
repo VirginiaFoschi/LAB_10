@@ -42,13 +42,22 @@ public final class LambdaFilter extends JFrame {
         /**
          * Commands.
          */
+
         IDENTITY("No modifications", Function.identity()),
         CONVERT_TO_LOWERCASE("Convert to lowercase", s->Arrays.asList(s).stream().map(i->i.toLowerCase()).collect(Collectors.joining())),
-        COUNT_CHARS("Count number of chars", Function.identity()),
-        COUNT_LINES("Count number of lines", Function.identity()),
-        IN_ORDER("List all word in alphabetical order", Function.identity()),
-        COUNT_WORD("Write the count for each word",Function.identity());
-
+        COUNT_CHARS("Count number of chars", s->Long.toString(s.chars().filter(x->x != ' ').filter(x->x != '\n').count())),
+        COUNT_LINES("Count number of lines", s->Long.toString(s.chars().filter(e-> e=='\n').count())),
+        IN_ORDER("List all word in alphabetical order", s->Arrays.asList(s.replace('\n',' ').split(" "))
+                                                                .stream()
+                                                                .sorted((x1,x2)->x1.toLowerCase().compareTo(x2.toLowerCase()))
+                                                                .collect(Collectors.joining(" "))),
+        COUNT_WORD("Write the count for each word",s->Arrays.asList(s.replace('\n',' ').split(" "))
+                                                            .stream()
+                                                            .collect(Collectors.groupingBy(x->x.toLowerCase(),Collectors.counting()))
+                                                            .entrySet()
+                                                            .stream()
+                                                            .map(x->x.getKey() + "->"+ x.getValue())
+                                                            .collect(Collectors.joining("\n")));
         private final String commandName;
         private final Function<String, String> fun;
 
